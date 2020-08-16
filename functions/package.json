@@ -9,12 +9,11 @@
     "logs": "firebase functions:log"
   },
   "dependencies": {
-    "firebase-admin": "^7.0.0",
-    "firebase-functions": "^2.2.0",
-    "mmmagic": "^0.5.2"
+    "firebase-admin": "^9.1.0",
+    "firebase-functions": "^3.9.1"
   },
   "engines": {
-    "node": "8"
+    "node": "12"
   },
   "private": true
 }
