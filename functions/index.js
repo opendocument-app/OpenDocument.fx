@@ -43,3 +43,22 @@ exports.download = functions.https.onRequest(async (req, res) => {
   object.createReadStream().pipe(res);
   res.status(200);
 });
+
+exports.deleteOldFilesPeriodic = functions.pubsub.schedule('every 2 hours').onRun((context) => {
+  const bucket = admin.storage().bucket('admob-app-id-9025061963.appspot.com');
+  bucket.getFiles({directory: 'uploads'}, async (error, files) => {
+    const deletionDate = new Date();
+    deletionDate.setHours(deletionDate.getHours() - 2);
+
+    console.log(deletionDate.toDateString())
+    for (const file of files) {
+      const [metadata] = await file.getMetadata();
+      const creationDate = new Date(metadata.updated);
+      if (creationDate < deletionDate) {
+        file.delete();
+      }
+    }
+  });
+
+  return null;
+});
